@@ -38,6 +38,18 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
     'تفصيل صغير',
   ];
   List<String?>? cover = ['اطباق مغلفه', 'اكياس'];
+  String convertToEnglishNumbers(String number) {
+    const arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+    const englishDigits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+    for (int i = 0; i < arabicDigits.length; i++) {
+      if (number.contains(arabicDigits[i])) {
+        number = number.replaceAll(arabicDigits[i], englishDigits[i]);
+      }
+    }
+
+    return number;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +152,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                       ),
                       MainText(
                         text:
-                            "${_qty * int.parse("${widget.productModel?.price}")} ر.س",
+                            "${_qty * int.parse("${convertToEnglishNumbers(widget.productModel?.price!.split(" ").last ?? "0")}")} ر.س",
                         color: kPrimaryColor,
                         fontSize: 20,
                       ),
