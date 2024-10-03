@@ -11,11 +11,9 @@ import 'package:ghena_alshaam/modules/widgets/error_handler/error_snackbar.dart'
 
 import '../../../core/state/base_state.dart';
 
-
 class MakeOrderCubit extends Cubit<BaseState> {
   MakeOrderCubit() : super(const InitState());
   static MakeOrderCubit of(context) => BlocProvider.of(context);
-
 
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -29,7 +27,6 @@ class MakeOrderCubit extends Cubit<BaseState> {
   String? location;
   double? lat;
   double? lng;
-
 
   List<CartItemsModel> cartItems = [];
 
@@ -65,12 +62,12 @@ class MakeOrderCubit extends Cubit<BaseState> {
     emit(const InitState());
   }
 
-
   Future<void> addToCart(CartItemsModel product) async {
     emit(const LoadingState());
     try {
       cartItems.add(product);
-      showSnackBar(NavigatorHelper.currentContext!, "تم الاضافة بنجاح", isSuccess: true);
+      showSnackBar(NavigatorHelper.currentContext!, "تم الاضافة بنجاح",
+          isSuccess: true);
     } catch (e) {
       print(e);
       showSnackBar(NavigatorHelper.currentContext!, "خطأ في الإتصال");
@@ -78,11 +75,9 @@ class MakeOrderCubit extends Cubit<BaseState> {
     emit(const InitState());
   }
 
-
   Future<void> onMakeOrder() async {
     emit(const LoadingState());
     try {
-
       final Map<String, dynamic> data = {
         "name": nameController.text,
         "phone": phoneController.text,
@@ -100,7 +95,7 @@ class MakeOrderCubit extends Cubit<BaseState> {
           "quantity[$i]" : cartItems[i].qty,
           "cutting[$i]" : cartItems[i].shredder,
           "wrapping[$i]" : cartItems[i].packaging,
-          "price[$i]" : cartItems[i].qty! * double.parse("${cartItems[i].price}"),
+          "price[$i]" : cartItems[i].qty! * double.parse("${convertToEnglishNumbers(cartItems[i].price!)}"),
         });
       }
 
@@ -134,5 +129,18 @@ class MakeOrderCubit extends Cubit<BaseState> {
       showSnackBar(NavigatorHelper.currentContext!, "خطأ في الإتصال");
     }
     emit(const InitState());
+  }
+
+  String convertToEnglishNumbers(String number) {
+    const arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+    const englishDigits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+    for (int i = 0; i < arabicDigits.length; i++) {
+      if (number.contains(arabicDigits[i])) {
+        number = number.replaceAll(arabicDigits[i], englishDigits[i]);
+      }
+    }
+
+    return number;
   }
 }

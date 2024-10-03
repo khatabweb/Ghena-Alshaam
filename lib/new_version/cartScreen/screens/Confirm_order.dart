@@ -64,7 +64,9 @@ class _ConfirmOrderViewState extends State<ConfirmOrderView> {
             total = 0.0;
 
             for (int i = 0; i < cubit.cartItems.length; i++) {
-              total += (cubit.cartItems[i].qty! * double.parse(cubit.cartItems[i].price!));
+              total += (cubit.cartItems[i].qty! *
+                  double.parse(cubit
+                      .convertToEnglishNumbers(cubit.cartItems[i].price!)));
             }
 
             return state is LoadingState
@@ -103,10 +105,12 @@ class _ConfirmOrderViewState extends State<ConfirmOrderView> {
                                 Directionality(
                                   textDirection: TextDirection.rtl,
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
                                     child: Row(
                                       children: [
-                                        MainText(text: "المجموع : ", fontSize: 16),
+                                        MainText(
+                                            text: "المجموع : ", fontSize: 16),
                                         MainText(text: "${total}"),
                                       ],
                                     ),
@@ -115,8 +119,7 @@ class _ConfirmOrderViewState extends State<ConfirmOrderView> {
                                 const SingleText(text: "المدن", fontSize: 14),
                                 BlocBuilder<CitiesCubit, BaseState>(
                                   builder: (context, state) {
-                                    final city_cubit =
-                                    CitiesCubit.of(context);
+                                    final city_cubit = CitiesCubit.of(context);
                                     return state is LoadingState
                                         ? const CustomLoading()
                                         : city_cubit.citiesModel == null
@@ -128,13 +131,11 @@ class _ConfirmOrderViewState extends State<ConfirmOrderView> {
                                               ))
                                             : CustomDropDown(
                                                 hint: "اختر المدينة",
-                                                value:
-                                                    makeOrderCubit.cityName,
+                                                value: makeOrderCubit.cityName,
                                                 items: city_cubit
                                                     .citiesModel!.data
                                                     ?.map(
-                                                      (ele) =>
-                                                          DropdownMenuItem(
+                                                      (ele) => DropdownMenuItem(
                                                         child: SingleText(
                                                             text: ele.city,
                                                             fontSize: 14),
@@ -155,10 +156,8 @@ class _ConfirmOrderViewState extends State<ConfirmOrderView> {
                                                               .data!
                                                               .length;
                                                       i++) {
-                                                    if (city_cubit
-                                                            .citiesModel!
-                                                            .data![i]
-                                                            .city ==
+                                                    if (city_cubit.citiesModel!
+                                                            .data![i].city ==
                                                         val.toString()) {
                                                       makeOrderCubit.cityId =
                                                           city_cubit
@@ -168,8 +167,7 @@ class _ConfirmOrderViewState extends State<ConfirmOrderView> {
                                                               .toString();
                                                     }
                                                   }
-                                                  print(
-                                                      makeOrderCubit.cityId);
+                                                  print(makeOrderCubit.cityId);
                                                   setState(() {});
                                                 },
                                               );
@@ -195,11 +193,9 @@ class _ConfirmOrderViewState extends State<ConfirmOrderView> {
                                   verticalPadding: 5,
                                 ),
                                 const SizedBox(height: 15),
-                                const SingleText(
-                                    text: "عنوانك", fontSize: 14),
+                                const SingleText(text: "عنوانك", fontSize: 14),
                                 CustomTextField(
-                                  controller:
-                                      makeOrderCubit.addressController,
+                                  controller: makeOrderCubit.addressController,
                                   hint: "عنوانك بالتفصيل",
                                   inputType: TextInputType.text,
                                   validate: Validations.any,
@@ -218,13 +214,14 @@ class _ConfirmOrderViewState extends State<ConfirmOrderView> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (_) => PlacePicker(
-                    
                                           //AIzaSyBsGwp19k_0lr31Hnyos-OPLdJ9FwTO6k4
                                           //AIzaSyBedHW8DNb7CXNjHjdf0MB4DNU51E20VW0
                                           apiKey:
-                                              "AIzaSyAyhVG7B9FUmg-urb3TZBtDSTB2aXHVFCg",
-                                          initialPosition:
-                                              const LatLng(24.660623, 46.780575),
+                                              "AIzaSyCA_d7wsXFrxjXQEjOVByCFzbfnVR1-4uk",
+                                          //? Old api key
+                                          // "AIzaSyAyhVG7B9FUmg-urb3TZBtDSTB2aXHVFCg",
+                                          initialPosition: const LatLng(
+                                              24.660623, 46.780575),
                                           enableMyLocationButton: true,
                                           selectInitialPosition: true,
                                           useCurrentLocation: true,
@@ -277,37 +274,32 @@ class _ConfirmOrderViewState extends State<ConfirmOrderView> {
                                   verticalPadding: 5,
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 20),
-                                  child:
-                                      BlocBuilder<MakeOrderCubit, BaseState>(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 20),
+                                  child: BlocBuilder<MakeOrderCubit, BaseState>(
                                     builder: (context, state) {
                                       return state is LoadingState
                                           ? const CustomLoading()
                                           : Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceAround,
+                                                  MainAxisAlignment.spaceAround,
                                               children: [
                                                 CustomButton(
-                                                  width:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width /
-                                                          2.3,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      2.3,
                                                   text: "إلغاء الطلب",
                                                   isFrame: true,
                                                   onTap: () =>
-                                                      MakeOrderCubit.of(
-                                                              context)
+                                                      MakeOrderCubit.of(context)
                                                           .cleanData(),
                                                 ),
                                                 CustomButton(
-                                                  width:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width /
-                                                          2.3,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      2.3,
                                                   text: "إتمام الشراء",
                                                   onTap: () {
                                                     if (makeOrderKey
@@ -325,7 +317,8 @@ class _ConfirmOrderViewState extends State<ConfirmOrderView> {
                                                         showSnackBar(context,
                                                             "فضلا قم بإدخال وسيلة الدفع");
                                                       }
-                                                      MakeOrderCubit.of(context).onMakeOrder();
+                                                      MakeOrderCubit.of(context)
+                                                          .onMakeOrder();
                                                     }
                                                   },
                                                 ),

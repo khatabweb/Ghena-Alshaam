@@ -40,9 +40,11 @@ class CartView extends StatelessWidget {
 
             print(cubit.cartItems);
 
-            if(cubit.cartItems.isNotEmpty){
+            if (cubit.cartItems.isNotEmpty) {
               for (int i = 0; i < cubit.cartItems.length; i++) {
-                total += (cubit.cartItems[i].qty! * double.parse(cubit.cartItems[i].price!));
+                total += (cubit.cartItems[i].qty! *
+                    double.parse(cubit.convertToEnglishNumbers(
+                        cubit.cartItems[i].price!.split(" ").last)));
               }
             }
             return state is LoadingState
@@ -65,7 +67,8 @@ class CartView extends StatelessWidget {
                                   image: ele.image,
                                   name: ele.name,
                                   packaging: ele.packaging,
-                                  price: ele.price,
+                                  price:
+                                      cubit.convertToEnglishNumbers(ele.price!),
                                   shredder: ele.shredder,
                                 );
                               },

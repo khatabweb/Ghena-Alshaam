@@ -50,7 +50,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
 
     return number;
   }
-
+  
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -296,7 +296,9 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                                     packaging: cubit.wrapping,
                                     image: widget.productModel?.image,
                                     name: widget.productModel?.name,
-                                    price: widget.productModel?.price,
+                                    price: widget.productModel?.price!
+                                        .split(" ")
+                                        .last,
                                   ));
                         log("add to list :::: ${cubit.cartItems}");
                         // cartCubit.AddToCart(
