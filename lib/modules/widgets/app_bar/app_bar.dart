@@ -97,10 +97,10 @@ PreferredSizeWidget? customAppBar(
                                         child: Container(
                                             child: MainText(
                                               color: Colors.white,
-                                              
                                               text: cubit.cartItems == null
                                                   ? "0"
-                                                  : cubit.cartItems.length.toString(),
+                                                  : cubit.cartItems.length
+                                                      .toString(),
                                               fontSize: 10,
                                             ),
                                             padding: const EdgeInsets.all(2),
